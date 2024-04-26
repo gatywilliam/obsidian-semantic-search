@@ -1,0 +1,53 @@
+// import { App, SuggestModal, Setting, TFolder } from "obsidian";
+
+// export class DropdownModal extends SuggestModal<TFolder> {
+//     result: string;
+//     onSubmit: (result: string) => void;
+
+//     constructor(app: App, onSubmit: (result: string) => void) {
+//       super(app);
+//       this.onSubmit = onSubmit;
+//     }
+  
+//     onOpen() {
+//       let { contentEl } = this;
+//       contentEl.createEl("h1", {text: "Select folder to search:"});
+//       new Setting(contentEl)
+//       .setName("Folder name:")
+//       .addText((text) =>
+//         text.onChange((value) => {
+//           this.result = value
+//         }));
+
+//         new Setting(contentEl)
+//         .addButton((btn) =>
+//             btn
+//             .setButtonText("Submit")
+//             .setCta()
+//             .onClick(() => {
+//                 this.close();
+//                 this.onSubmit(this.result);
+//             }));
+//     }
+  
+//     onClose() {
+//       let { contentEl } = this;
+//       contentEl.empty();
+//     }
+
+//     getSuggestions(query: string): Book[] {
+//         return ALL_BOOKS.filter((book) =>
+//           book.title.toLowerCase().includes(query.toLowerCase())
+//         );
+//       }
+
+//       renderSuggestion(book: Book, el: HTMLElement) {
+//         el.createEl("div", { text: book.title });
+//         el.createEl("small", { text: book.author });
+//       }
+    
+//       onChooseSuggestion(book: Book, evt: MouseEvent | KeyboardEvent) {
+//         new Notice(`Selected ${book.title}`);
+//       }
+    
+// }
