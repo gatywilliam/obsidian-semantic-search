@@ -1,7 +1,7 @@
 {
 	"id": "semantic-search-plugin",
 	"name": "Semantic Search Plugin",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"minAppVersion": "0.15.0",
 	"description": "Use semantic search to find documents within your vault.",
 	"author": "Thomas Benzshawel & William Gaty",
