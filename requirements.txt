@@ -1,0 +1,5 @@
+haystack-ai
+flask
+flask_socketio
+flask_cors
+sentence-transformers>=2.2.0
