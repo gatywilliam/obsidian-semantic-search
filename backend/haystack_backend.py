@@ -10,16 +10,17 @@ import haystack_api
 document_store = InMemoryDocumentStore(embedding_similarity_function="cosine")
 
 path = os.path.join(os.getcwd(), "docs")
+documents_read, files = docs_folder.get_files_in_folder(path)
 
-documents_read = docs_folder.get_files_in_folder(path)
-
-documents = [Document(content=document) for document in documents_read]
+documents = [Document(content=document, meta={"name": os.path.basename(file)}) for file, document in zip(files, documents_read)]
 
 document_embedder = SentenceTransformersDocumentEmbedder(
-	model="BAAI/bge-large-en-v1.5")  
+    model="BAAI/bge-large-en-v1.5")  
+
 document_embedder.warm_up()
 
 documents_with_embeddings = document_embedder.run(documents)["documents"]
+
 document_store.write_documents(documents_with_embeddings)
 
 query_pipeline = Pipeline()
@@ -31,5 +32,6 @@ run = True
 while run:
     query = haystack_api.get_query()
     results = query_pipeline.run({"text_embedder": {"text": query}})
-    haystack_api.return_results(results)
+    get_results = haystack_api.return_results(results)
+    print(get_results)
     run = haystack_api.continue_running()
