@@ -12,8 +12,8 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 }
 
 async function runBackendCMD() {
-	// const activateScriptPath = path.join((this.app.vault.adapter as any).basePath, '.obsidian', 'plugins', 'semantic-search-plugin', 'launch.bat')
-	const activateScriptPath = path.join((this.app.vault.adapter as any).basePath, '.obsidian', 'plugins', 'semantic-search-plugin', 'launch_hardcoded.bat')
+	const activateScriptPath = path.join((this.app.vault.adapter as any).basePath, '.obsidian', 'plugins', 'semantic-search-plugin', 'launch.bat')
+	// const activateScriptPath = path.join((this.app.vault.adapter as any).basePath, '.obsidian', 'plugins', 'semantic-search-plugin', 'launch_hardcoded.bat')
 
 	const server = spawn('cmd.exe', ["/C", activateScriptPath]);
 	console.log((this.app.vault.adapter as any).basePath)
