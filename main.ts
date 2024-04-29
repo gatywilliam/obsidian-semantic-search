@@ -12,8 +12,8 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 }
 
 async function runBackendCMD() {
-	const activateScriptPath = path.join((this.app.vault.adapter as any).basePath, '.obsidian', 'plugins', 'semantic-search-plugin', 'launch.bat')
-	// const activateScriptPath = path.join((this.app.vault.adapter as any).basePath, '.obsidian', 'plugins', 'semantic-search-plugin', 'launch_hardcoded.bat')
+	// const activateScriptPath = path.join((this.app.vault.adapter as any).basePath, '.obsidian', 'plugins', 'semantic-search-plugin', 'launch.bat')
+	const activateScriptPath = path.join((this.app.vault.adapter as any).basePath, '.obsidian', 'plugins', 'semantic-search-plugin', 'launch_hardcoded.bat')
 
 	const server = spawn('cmd.exe', ["/C", activateScriptPath]);
 	console.log((this.app.vault.adapter as any).basePath)
@@ -37,7 +37,7 @@ export default class SemanticSearchPlugin extends Plugin {
 
 		await runBackendCMD()
 
-		this.addRibbonIcon('dice', 'SemanticSearch: Run Search', () => {
+		this.addRibbonIcon('search', 'SemanticSearch: Run Search', () => {
 			checkEmbeddings()
 			if (this.warmedUp) {
 				new UI_Modal(this.app, getUserInput).open()
@@ -60,10 +60,23 @@ export default class SemanticSearchPlugin extends Plugin {
 			}
 		});
 
+		this.addRibbonIcon('arrows-up-from-line', 'Ping Server', () => {
+			fetch(`${this.backendURL}/ping`, {
+				method: 'GET',
+				// mode: 'no-cors', //unsure if this is necessary for this use case
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}).then(response => response.json())
+			.then((data) => {
+				new Notice(`Ping result: ${data.active}`);
+			}).catch(e => console.log(`PING FAILED; RESULT: ${e}`))
+		});
+
 		const checkEmbeddings = () => {
 			fetch(`${this.backendURL}/embeddings_status`, {
 				method: 'GET',
-				mode: 'no-cors', //unsure if this is necessary for this use case
+				// mode: 'no-cors', //unsure if this is necessary for this use case
 				headers: {
 					'Content-Type': 'application/json'
 				}
@@ -78,11 +91,11 @@ export default class SemanticSearchPlugin extends Plugin {
 		}
 
 
-		this.addRibbonIcon('dice', 'SemanticSearch: First time setup (PLEASE READ)', () => {
+		this.addRibbonIcon('book-open-text', 'SemanticSearch: First time setup (PLEASE READ)', () => {
 			new FirstTimeSetupModal(this.app).open()	
 		});
 
-		this.addRibbonIcon('dice', 'SemanticSearch: Run Search Startup (WARNING: WILL EAT UP CPU)', () => {
+		this.addRibbonIcon('play', 'SemanticSearch: Run Search Startup (WARNING: WILL EAT UP CPU)', () => {
 			fetch(`${this.backendURL}/run_startup`, {
 				method: 'POST',
 				mode: 'no-cors', //unsure if this is necessary for this use case
@@ -117,7 +130,7 @@ export default class SemanticSearchPlugin extends Plugin {
 		const getResults = () => {
 			fetch(`${this.backendURL}/return_results`, {
 				method: 'GET',
-				mode: 'no-cors', //unsure if this is necessary for this use case
+				// mode: 'no-cors', //unsure if this is necessary for this use case
 				headers: {
 					'Content-Type': 'application/json'
 				}
