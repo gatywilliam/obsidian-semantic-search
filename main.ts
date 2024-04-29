@@ -12,7 +12,7 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 }
 
 async function runBackendCMD() {
-	// const activateScriptPath = path.join((this.app.vault.adapter as any).basePath, '.obsidian', 'plugins', 'obsidian-sample-plugin', 'launch.bat')
+	// const activateScriptPath = path.join((this.app.vault.adapter as any).basePath, '.obsidian', 'plugins', 'semantic-search-plugin', 'launch.bat')
 	const activateScriptPath = path.join((this.app.vault.adapter as any).basePath, '.obsidian', 'plugins', 'semantic-search-plugin', 'launch_hardcoded.bat')
 
 	const server = spawn('cmd.exe', ["/C", activateScriptPath]);
@@ -124,10 +124,10 @@ export default class SemanticSearchPlugin extends Plugin {
 					num_results: num
 				})
 			})
-			getResults()
+			getResults(result)
 		}
 
-		const getResults = () => {
+		const getResults = (userInput: string) => {
 			fetch(`${this.backendURL}/return_results`, {
 				method: 'GET',
 				// mode: 'no-cors', //unsure if this is necessary for this use case
@@ -136,7 +136,7 @@ export default class SemanticSearchPlugin extends Plugin {
 				}
 			}).then(response => response.json())
 			.then((data) => {
-				new ResultModal(this.app, data.results).open()
+				new ResultModal(this.app, data.results, userInput).open()
 			}).catch(e => console.log(e))
 		}
 
@@ -219,15 +219,17 @@ export class UI_Modal extends Modal {
 
 export class ResultModal extends Modal {
     result: any;
+	userInput: any;
 
-    constructor(app: App, result: any) {
+    constructor(app: App, result: any, userInput: any) {
         super(app);
-		this.result = result
+		this.result = result,
+		this.userInput = userInput
     }
 
     onOpen() {
         let { contentEl } = this;
-        contentEl.createEl("h1", { text: "SemanticSearch: Search Results" });
+        contentEl.createEl("h1", { text: `SemanticSearch: Search Results for \' ${this.userInput}\'` });
 		console.log(typeof this.result)
 		console.log(this.result)
 		for (const c of this.result) {
