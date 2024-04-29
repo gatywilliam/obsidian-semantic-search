@@ -63,7 +63,6 @@ def run_startup():
     QUERY_PIPELINE.connect("text_embedder.embedding", "retriever.query_embedding")
     global EMBEDDINGS_MADE
     EMBEDDINGS_MADE = True
-    print(EMBEDDINGS_MADE)
     return 'Success'
 
 @app.route('/get_query', methods=['POST'])
@@ -76,9 +75,10 @@ def get_query():
         NUM_RESULTS = int(q.get('num_results'))
     except:
         NUM_RESULTS = 3
-    global RESULTS
-    RESULTS = QUERY_PIPELINE.run({"text_embedder": {"text": QUERY}})
-    return 'Success'
+    finally:
+        global RESULTS
+        RESULTS = QUERY_PIPELINE.run({"text_embedder": {"text": QUERY}})
+        return 'Success'
 
 @app.route('/return_results', methods=['GET'])
 def return_results():
@@ -106,9 +106,9 @@ def continue_running():
 if __name__ == "__main__":
     print("server started")
     socket_io.run(app, host='0.0.0.0', port=5000, debug=True, allow_unsafe_werkzeug=True)
-    print("server running")
-    while True:
-        if not CONTINUE_RUNNING:
-            break
-    print("not continue running")
+    # print("server running")
+    # while True:
+    #     if not CONTINUE_RUNNING:
+    #         break
+    # print("not continue running")
     exit(0)
