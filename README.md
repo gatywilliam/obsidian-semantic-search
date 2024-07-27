@@ -1,5 +1,5 @@
-# NOTES FOR PROFESSOR JONES
-It would appear that actually publishing an Obsidian plugin so that it's accessible to the community requires review and approval from the Obsidian team, the timeline of which is undetermined. So, we're simply publishing the work here (not our original repository, because GitHub apparently really doesn't like hidden files, and *every single file in an Obsidian plugin is hidden*. Here are instructions for setting up and running the plugin using Obsidian, albeit in a way that's held together with chewing gum and bits of string. 
+# Introduction
+This is a project that I and a groupmate worked on for our Natural Language Processing (CSC4641) class during the spring semester of my senior year (2023/24). The published extension could not be finished within our timeframe, both due to technical difficulties with packaging a Python application and because publishing an extension requires approval from the Obdisian team, something which could take an undetermined amount of time. The portion of the project which I focused on was primarily the integration of the models into the Obsidian frontend, while my groupmate constructed the pipeline and models themselves.
 
 ## Instructions
 1. Download Obsidian if you don't have it already, and create an empty vault. From there, it's suggested that you follow the steps at [this link](https://docs.obsidian.md/Plugins/Getting+started/Build+a+plugin), up through step 3.
